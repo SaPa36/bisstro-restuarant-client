@@ -28,6 +28,13 @@ const PopularItems = () => {
                     </MenuItem>)}
             </div>
 
+            <div className="flex justify-center w-full my-8">
+                <button className="btn btn-outline border-0 border-b-4 text-black uppercase hover:bg-white hover:text-black">
+                    View Full Menu
+                </button>
+            </div>
+
+
 
         </section>
     );

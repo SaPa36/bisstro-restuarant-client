@@ -6,10 +6,14 @@ import PopularItems from '../PopularItems/PopularItems';
 import Recoomends from '../Recommends/Recoomends';
 import Featured from '../Featured/Featured';
 import Testimonials from '../Testimonials/Testimonials';
+import { Helmet } from 'react-helmet';
 
 const Home = () => {
     return (
         <div className='space-y-20'>
+            <Helmet>
+                <title>Bistro Boss | Home</title>
+            </Helmet>
             <Banner></Banner>
             <Category></Category>
             <BistroBoss></BistroBoss>
