@@ -11,7 +11,7 @@ import soupImg from '../../../assets/menu/soup-bg.jpg';
 const MenuCategory = () => {
     const [menu] = useMenu();
     const offered = menu.filter(item => item.category === 'offered');
-    const desserts = menu.filter(item => item.category === 'dessert');
+    const dessert = menu.filter(item => item.category === 'dessert');
     const pizza = menu.filter(item => item.category === 'pizza');
     const salad = menu.filter(item => item.category === 'salad');
     const soup = menu.filter(item => item.category === 'soup');
@@ -25,10 +25,10 @@ const MenuCategory = () => {
                         item={item}>
                     </MenuItem>)}
             </div>
-            
+
             <Cover img={dessertImg} title="Dessert"></Cover>
             <div className='grid md:grid-cols-2 gap-10 mb-12'>
-                {desserts.map(item =>
+                {dessert.map(item =>
                     <MenuItem
                         key={item._id}
                         item={item}>    
