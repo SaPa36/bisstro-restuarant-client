@@ -16,7 +16,7 @@ const OrderFood = () => {
   const salad = menu.filter((item) => item.category === "salad");
   const soup = menu.filter((item) => item.category === "soup");
   return (
-    <div>
+    <div className="space-y-20">
       <Cover img={orderImg} title="Order Food"></Cover>
       <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
         <TabList>
