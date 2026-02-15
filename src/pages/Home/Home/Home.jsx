@@ -1,10 +1,12 @@
 import React from 'react';
 import Banner from '../Banner/Banner';
+import Category from '../Category/Category';
 
 const Home = () => {
     return (
-        <div>
+        <div className='space-y-20'>
             <Banner></Banner>
+            <Category></Category>
         </div>
     );
 };
