@@ -9,7 +9,7 @@ import {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <div className='max-w-screen-xl mx-auto'>
+    <div className='lg:max-w-screen-xl mx-auto'>
       <RouterProvider router={router} />
     </div>
   </StrictMode>,

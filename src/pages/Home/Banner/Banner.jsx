@@ -1,5 +1,5 @@
 import React from 'react';
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import { Carousel } from 'react-responsive-carousel';
 
 import img1 from '../../../assets/home/01.jpg'
@@ -11,32 +11,38 @@ import img6 from '../../../assets/home/06.png'
 
 const Banner = () => {
     return (
-        
-            <Carousel >
-                <div>
-                    <img src={img1} />
-
+        <div className="max-w-screen-2xl mx-auto">
+            <Carousel 
+                autoPlay={true} 
+                infiniteLoop={true} 
+                showThumbs={true} // Changed back to true to show thumbnails
+                showStatus={false}
+                interval={3000}
+            >
+                {/* We set the height on the div container.
+                   We use 'object-cover' on the img so it fills the 600px 
+                   without being squished.
+                */}
+                <div className="h-[400px] md:h-[500px]">
+                    <img src={img1} className="h-full object-cover" />
                 </div>
-                <div>
-                    <img src={img2} />
-
+                <div className="h-[400px] md:h-[500px]">
+                    <img src={img2} className="h-full object-cover" />
                 </div>
-                <div>
-                    <img src={img3} />
-
+                <div className="h-[400px] md:h-[500px]">
+                    <img src={img3} className="h-full object-cover" />
                 </div>
-                <div>
-                    <img src={img4} />
-
+                <div className="h-[400px] md:h-[500px]">
+                    <img src={img4} className="h-full object-cover" />
                 </div>
-                <div>
-                    <img src={img5} />
+                <div className="h-[400px] md:h-[500px]">
+                    <img src={img5} className="h-full object-cover" />
                 </div>
-                <div>
-                    <img src={img6} />
+                <div className="h-[400px] md:h-[500px]">
+                    <img src={img6} className="h-full object-cover" />
                 </div>
             </Carousel>
-       
+        </div>
     );
 };
 
