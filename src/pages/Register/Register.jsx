@@ -4,15 +4,9 @@ import bgImg from '../../assets/others/authentication.png'; // The textured back
 import { Link } from 'react-router-dom';
 import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 
-const Login = () => {
-    const captchaRef = useRef(null);
-    const [disabled, setDisabled] = useState(true);
-
-    useEffect(() => {
-        loadCaptchaEnginge(6);
-    }, []);
-
-    const handleLogin = (event) => {
+const Register = () => {
+    
+    const handleRegister = (event) => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
@@ -21,22 +15,14 @@ const Login = () => {
         // Add your authentication logic here
     };
 
-    const handleCaptchaValidation = () => {
-        const userCaptcha = captchaRef.current.value;
-        const isCaptchaValid = validateCaptcha(userCaptcha);
-        if (isCaptchaValid) {
-            setDisabled(false);
-        } else {
-            alert("Invalid Captcha!");
-        }
-    };
+    
 
     return (
         <div 
             className="hero min-h-screen" 
             style={{ backgroundImage: `url(${bgImg})` }}
         >
-            <div className="hero-content flex-col lg:flex-row shadow-2xl p-10 bg-transparent border border-gray-200">
+            <div className="hero-content flex-col lg:flex-row-reverse shadow-2xl p-10 bg-transparent border border-gray-200">
                 
                 {/* Left Side: Image */}
                 <div className="text-center lg:text-left md:w-1/2">
@@ -45,8 +31,21 @@ const Login = () => {
 
                 {/* Right Side: Form */}
                 <div className="card shrink-0 w-full max-w-sm md:w-1/2 bg-transparent">
-                    <form onSubmit={handleLogin} className="card-body">
-                        <h1 className="text-4xl font-bold text-center mb-4">Login</h1>
+                    <form onSubmit={handleRegister} className="card-body">
+                        <h1 className="text-4xl font-bold text-center mb-4">Register</h1>
+
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text font-semibold">Name</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                name="name" 
+                                placeholder="Your Name" 
+                                className="input input-bordered focus:outline-none rounded-lg" 
+                                required 
+                            />
+                        </div>
                         
                         <div className="form-control">
                             <label className="label">
@@ -55,7 +54,7 @@ const Login = () => {
                             <input 
                                 type="email" 
                                 name="email" 
-                                placeholder="Type here" 
+                                placeholder="Your Email" 
                                 className="input input-bordered focus:outline-none rounded-lg" 
                                 required 
                             />
@@ -74,36 +73,21 @@ const Login = () => {
                             />
                         </div>
 
-                        {/* Optional Captcha Placeholder - common in this project template */}
-                        <div className="form-control mt-4">
-                            <label className="label">
-                                <LoadCanvasTemplate />
-                            </label>
-
-                            <button onClick={handleCaptchaValidation} className="btn mb-2 btn-sm mt-2">Validate Captcha</button>
-                            
-                            <input 
-                                type="text"
-                                ref={captchaRef} 
-                                name="captcha"
-                                placeholder="Type the captcha above" 
-                                className="input input-bordered focus:outline-none rounded-lg" 
-                            />
-                        </div>
+                        
 
                         <div className="form-control mt-6">
                             <input 
                                 className="btn w-full mr-20 bg-[#D1A054B2] hover:bg-[#D1A054] text-white border-none rounded-lg" 
                                 type="submit" 
                                 value="Sign In"
-                                disabled={disabled} 
+                                
                             />
                         </div>
                     </form>
 
                     <div className="text-center pb-6">
                         <p className="text-[#D1A054]">
-                            <small>New here? <Link className="font-bold" to="/register">Create a New Account</Link></small>
+                            <small>Already have an account? <Link className="font-bold" to="/login">Log In</Link></small>
                         </p>
                         <p className="mt-2">Or sign in with</p>
                         <div className="flex justify-center gap-4 mt-4 text-2xl">
@@ -119,4 +103,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
