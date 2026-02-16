@@ -1,4 +1,4 @@
-import React, { use, useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext} from 'react';
 import loginImg from '../../assets/others/authentication2.png'; // Make sure this path is correct
 import bgImg from '../../assets/others/authentication.png'; // The textured background
 import { Link } from 'react-router-dom';
@@ -19,6 +19,14 @@ const Register = () => {
 
     const onSubmit = (data) => {
         console.log(data);
+        createUser(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     };
 
 
@@ -80,10 +88,22 @@ const Register = () => {
                                 placeholder="Enter your password"
                                 className="input input-bordered focus:outline-none rounded-lg"
                                 required
-                                {...register("password", { required: true, minLength: 6 , maxLength: 20 })}
+                                {...register("password", { 
+                                    required: true,
+                                    minLength: 6 , 
+                                    maxLength: 20,
+                                    pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/
+                                 })}
                             />
-                            {errors.password && <span className="text-red-500">Password must be 6 characters long</span>}
+                            {errors.password?.type === "required" && <span className="text-red-500">Password is required</span>}
+                            {errors.password?.type === "minLength" && <span className="text-red-500">Password must be at least 6 characters</span>}
+                            {errors.password?.type === "maxLength" && <span className="text-red-500">Password must be less than 20 characters</span>}
+                            {errors.password?.type === "pattern" && <span className="text-red-500">Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character</span>}
                         </div>
+
+                            
+            
+
 
 
 
