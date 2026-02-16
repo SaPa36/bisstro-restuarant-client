@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import loginImg from '../../assets/others/authentication2.png'; // Make sure this path is correct
 import bgImg from '../../assets/others/authentication.png'; // The textured background
 import { Link } from 'react-router-dom';
+import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 
 const Login = () => {
+    const captchaRef = useRef(null);
+    const [disabled, setDisabled] = useState(true);
+
+    useEffect(() => {
+        loadCaptchaEnginge(6);
+    }, []);
 
     const handleLogin = (event) => {
         event.preventDefault();
@@ -12,6 +19,16 @@ const Login = () => {
         const password = form.password.value;
         console.log(email, password);
         // Add your authentication logic here
+    };
+
+    const handleCaptchaValidation = () => {
+        const userCaptcha = captchaRef.current.value;
+        const isCaptchaValid = validateCaptcha(userCaptcha);
+        if (isCaptchaValid) {
+            setDisabled(false);
+        } else {
+            alert("Invalid Captcha!");
+        }
     };
 
     return (
@@ -59,14 +76,16 @@ const Login = () => {
 
                         {/* Optional Captcha Placeholder - common in this project template */}
                         <div className="form-control mt-4">
+                            <label className="label">
+                                <LoadCanvasTemplate />
+                            </label>
+
+                            <button onClick={handleCaptchaValidation} className="btn mb-2 btn-sm mt-2">Validate Captcha</button>
+                            
                             <input 
-                                type="text" 
-                                value="#4givo" 
-                                disabled
-                                className="input input-bordered focus:outline-none rounded-lg mb-4"
-                            />
-                            <input 
-                                type="text" 
+                                type="text"
+                                ref={captchaRef} 
+                                name="captcha"
                                 placeholder="Type the captcha above" 
                                 className="input input-bordered focus:outline-none rounded-lg" 
                             />
@@ -76,7 +95,8 @@ const Login = () => {
                             <input 
                                 className="btn w-full mr-20 bg-[#D1A054B2] hover:bg-[#D1A054] text-white border-none rounded-lg" 
                                 type="submit" 
-                                value="Sign In" 
+                                value="Sign In"
+                                disabled={disabled} 
                             />
                         </div>
                     </form>
