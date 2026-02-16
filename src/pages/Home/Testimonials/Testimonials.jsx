@@ -31,7 +31,7 @@ const Testimonials = () => {
 
                 {
                     reviews.map(review => <SwiperSlide key={review._id}>
-                        <div className="testimonial-card   flex flex-col items-center gap-y-5 bg-gray-100 rounded-lg shadow-md">
+                        <div className="testimonial-card px-24 p-6 flex flex-col items-center gap-y-5 bg-gray-100 rounded-lg shadow-md">
                             <Rating
                                 style={{ maxWidth: 180 }}
                                 value={review.rating}

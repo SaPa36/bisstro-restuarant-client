@@ -19,7 +19,7 @@ const Featured = () => {
                 {/* Section Title Component Logic */}
                 <SectionTitle heading="Featured Item" subHeading="Our Speciality"></SectionTitle>
 
-                <div className="md:flex justify-center items-center gap-10 px-30 ">
+                <div className="md:flex justify-center items-center gap-10 md:px-30 ">
                     <div className="md:w-1/2">
                         <img src={featuredImg} alt="Featured item" className="rounded-lg" />
                     </div>
