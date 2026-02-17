@@ -35,7 +35,7 @@ const Navbar = () => {
                 <div className="navbar-end">
                     {user ? (
                         <>
-                            <span className="mr-4">Welcome</span>
+                            <span className="mr-4">Welcome {user.displayName}</span>
                             <button onClick={logOut} className="btn btn-outline btn-warning">Logout</button>
                         </>
                     ) : (
