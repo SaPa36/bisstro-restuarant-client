@@ -42,14 +42,14 @@ const Cart = () => {
             {/* Section Header */}
             <div className="text-center ">
                 <p className="text-[#D1A054] italic mb-2">---My Cart---</p>
-                <h2 className="text-3xl font-bold uppercase border-y-4 py-4 inline-block px-10">Wanna Add More?</h2>
+                <h2 className="text-3xl font-bold uppercase border-y-4 border-gray-400 py-4 inline-block px-10">Wanna Add More?</h2>
             </div>
 
             {/* Table Container */}
             <div className="bg-white p-10 shadow-lg">
                 <div className="flex justify-between items-center mb-6 font-cinzel">
-                    <h2 className="text-2xl font-bold">Total Items: {cart.length}</h2>
-                    <h2 className="text-2xl font-bold">Total Price: ${totalPrice.toFixed(2)}</h2>
+                    <h2 className="text-xl font-bold">Total Items: {cart.length}</h2>
+                    <h2 className="text-xl font-bold">Total Price: ${totalPrice.toFixed(2)}</h2>
                     <button className="btn bg-[#D1A054] text-white hover:bg-black border-none btn-md uppercase">Pay</button>
                 </div>
 
@@ -77,8 +77,8 @@ const Cart = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="text-gray-500 font-semibold">{item.name}</td>
-                                    <td className="text-gray-500">${item.price}</td>
+                                    <td className=" font-semibold">{item.name}</td>
+                                    <td className="font-bold">${item.price}</td>
                                     <td>
                                         <button className="btn btn-ghost bg-[#D1A054] text-white btn-sm">
                                             <FaEdit />
