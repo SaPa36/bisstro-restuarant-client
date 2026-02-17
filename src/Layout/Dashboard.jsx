@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { FaHome, FaUtensils, FaList, FaBook, FaUsers, FaSearch, FaShoppingBag, FaEnvelope } from "react-icons/fa";
 
 const Dashboard = () => {
@@ -42,8 +42,9 @@ const Dashboard = () => {
             </div>
 
             {/* Main Content Area */}
-            <div className="flex-1 p-10 bg-gray-100">
+            <div className="flex-1 px-10 py-5 bg-gray-100">
                 {/* Your Outlet goes here for nested routing */}
+                <Outlet></Outlet>
             </div>
         </div>
     );
