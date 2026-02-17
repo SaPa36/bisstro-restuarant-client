@@ -131,7 +131,8 @@ const Login = () => {
                                     className="btn w-full mr-20 bg-[#D1A054B2] hover:bg-[#D1A054] text-white border-none rounded-lg"
                                     type="submit"
                                     value="Sign In"
-                                    disabled={disabled}
+                                    // disable letter
+                                    disabled={false}
                                 />
                             </div>
                         </form>
