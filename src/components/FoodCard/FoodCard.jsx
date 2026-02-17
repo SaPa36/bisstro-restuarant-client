@@ -1,11 +1,35 @@
-import React from "react";
+import React, { use, useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
-const FoodCard = ({item}) => {
+const FoodCard = ({ item }) => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    const {image, name, recipe, price} = item;
-    const handleAddToCart = (food) => {
-      console.log(food);
+  const { image, name, recipe, price } = item;
+  const handleAddToCart = (food) => {
+    if (user && user.email) {
+      // Add to cart logic here
+      console.log("Adding to cart:", food);
     }
+    else {
+      Swal.fire({
+        title: "You are not logged in!",
+        text: "Please log in to add items to your cart.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, login!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+
+      });
+    }
+  };
   return (
     <div className="card bg-[#F3F3F3] shadow-xl rounded-none">
       <figure>
@@ -31,6 +55,7 @@ const FoodCard = ({item}) => {
       </div>
     </div>
   );
+
 };
 
 export default FoodCard;
