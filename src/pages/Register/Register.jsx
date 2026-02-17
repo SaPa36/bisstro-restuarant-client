@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import { useForm } from 'react-hook-form';
 import { Helmet } from 'react-helmet';
+import Swal from 'sweetalert2';
 
 
 
@@ -23,7 +24,11 @@ const Register = () => {
         createUser(data.email, data.password)
             .then(result => {
                 const user = result.user;
-                console.log(user);
+                Swal.fire({
+                    title: "Drag me!",
+                    icon: "success",
+                    draggable: true
+                });
             })
             .catch(error => {
                 console.log(error);
@@ -107,12 +112,6 @@ const Register = () => {
                                 {errors.password?.type === "maxLength" && <span className="text-red-500">Password must be less than 20 characters</span>}
                                 {errors.password?.type === "pattern" && <span className="text-red-500">Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character</span>}
                             </div>
-
-
-
-
-
-
 
                             <div className="form-control mt-6">
                                 <input

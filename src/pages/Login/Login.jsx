@@ -1,7 +1,7 @@
 import React, { use, useContext, useEffect, useState } from 'react';
 import loginImg from '../../assets/others/authentication2.png'; // Make sure this path is correct
 import bgImg from '../../assets/others/authentication.png'; // The textured background
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 import { Helmet } from 'react-helmet';
 import { AuthContext } from '../../providers/AuthProvider';
@@ -11,6 +11,10 @@ const Login = () => {
     
     const [disabled, setDisabled] = useState(true);
     const { signIn } = useContext(AuthContext);
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     useEffect(() => {
         loadCaptchaEnginge(6);
@@ -33,6 +37,7 @@ const Login = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
+                navigate(from, { replace: true });
             })
             .catch(error => {
                 console.log(error);
