@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../providers/AuthProvider';
+import { TiShoppingCart } from "react-icons/ti";
 
 const Navbar = () => {
 
@@ -10,6 +11,15 @@ const Navbar = () => {
         <li><Link to="/menu">Menu</Link></li>
         <li><Link to="/order/salad">Order Food</Link></li>
         <li><Link to="/secret">Secret</Link></li>
+        <li>
+            <Link to="/">
+                
+
+                <button className="btn btn-ghost">
+                    <TiShoppingCart /> <div className="badge badge-sm badge-secondary">+0</div>
+                </button>
+            </Link>
+        </li>
     </>;
     return (
         <>
