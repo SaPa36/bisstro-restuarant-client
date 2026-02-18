@@ -1,8 +1,11 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { FaHome, FaUtensils, FaList, FaBook, FaUsers, FaSearch, FaShoppingBag, FaEnvelope } from "react-icons/fa";
+import { FaHome, FaUtensils, FaList, FaBook, FaUsers, FaSearch, FaShoppingBag, FaEnvelope, FaShoppingCart, FaCalendarAlt, FaWallet } from "react-icons/fa";
+import useCart from "../hooks/useCart";
 
 const Dashboard = () => {
     // Optional: Toggle this based on your user's role (Admin vs User)
+    const [cart, refetch] = useCart();
+    
     const isAdmin = true; 
 
     return (
@@ -19,14 +22,23 @@ const Dashboard = () => {
                         <>
                             <li><NavLink to="/dashboard/adminHome"><FaHome /> Admin Home</NavLink></li>
                             <li><NavLink to="/dashboard/addItems"><FaUtensils /> Add Items</NavLink></li>
-                            <li><NavLink to="/dashboard/cart"><FaList /> My Cart</NavLink></li>
+                            <li><NavLink to="/dashboard/cart"><FaList /> Manage Cart</NavLink></li>
                             <li><NavLink to="/dashboard/bookings"><FaBook /> Manage Bookings</NavLink></li>
                             <li><NavLink to="/dashboard/allUsers"><FaUsers /> All Users</NavLink></li>
                         </>
                     ) : (
                         <>
                             <li><NavLink to="/dashboard/userHome"><FaHome /> User Home</NavLink></li>
-                            {/* Add other user-specific links here */}
+                            <li><NavLink to="/dashboard/reservation"><FaCalendarAlt /> Reservation</NavLink></li>
+                            <li><NavLink to="/dashboard/payment"><FaWallet /> Payment History</NavLink></li>
+                            <li>
+                                <NavLink to="/dashboard/cart">
+                                    <FaShoppingCart /> My Cart 
+                                    <span className="badge badge-secondary ml-2">+{cart?.length || 0}</span>
+                                </NavLink>
+                            </li>
+                            <li><NavLink to="/dashboard/review"><FaBook /> Add Review</NavLink></li>
+                            <li><NavLink to="/dashboard/bookings"><FaCalendarAlt /> My Booking</NavLink></li>
                         </>
                     )}
 
