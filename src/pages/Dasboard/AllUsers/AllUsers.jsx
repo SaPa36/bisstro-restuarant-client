@@ -15,8 +15,23 @@ const AllUsers = () => {
         }
     });
 
-   
-    const handleDelete = (id) => {
+    const handleMakeAdmin = (user) => {
+        axiosSecure.patch(`/users/admin/${user._id}`)
+            .then(res => {
+                if (res.data.modifiedCount > 0) {
+                    refetch(); // Refetch to get the updated user list
+                    Swal.fire({
+                        title: "Success!",
+                        text: `${user.name} is now an admin.`,
+                        icon: "success"
+                    });
+                }
+            })
+            .catch(error => console.log(error));
+    }
+
+
+    const handleDelete = (user) => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -28,7 +43,7 @@ const AllUsers = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 // Using plural /users/ to match the GET request
-                axiosSecure.delete(`/users/${id}`)
+                axiosSecure.delete(`/users/${user._id}`)
                     .then(res => {
                         if (res.data.deletedCount > 0) {
                             refetch(); // Now refetch is in scope
@@ -75,13 +90,19 @@ const AllUsers = () => {
                                     <td className="font-semibold text-gray-600">{user.name}</td>
                                     <td className="text-gray-600">{user.email}</td>
                                     <td>
-                                        <button className="btn btn-ghost bg-[#D1A054] text-white btn-sm">
-                                            <FaUser />
-                                        </button>
+                                        {user.role === 'admin' ? (
+                                            <span className="text-green-500 font-bold">Admin</span>
+                                        ) : (
+                                            <button
+                                                onClick={() => handleMakeAdmin(user)}
+                                                className="btn btn-ghost bg-[#D1A054] text-white btn-sm">
+                                                <FaUser />
+                                            </button>
+                                        )}
                                     </td>
                                     <td>
-                                        <button 
-                                            onClick={() => handleDelete(user._id)}
+                                        <button
+                                            onClick={() => handleDelete(user)}
                                             className="btn btn-ghost bg-[#B91C1C] text-white btn-sm"
                                         >
                                             <FaTrashAlt />
