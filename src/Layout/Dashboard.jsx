@@ -1,12 +1,13 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { FaHome, FaUtensils, FaList, FaBook, FaUsers, FaSearch, FaShoppingBag, FaEnvelope, FaShoppingCart, FaCalendarAlt, FaWallet } from "react-icons/fa";
 import useCart from "../hooks/useCart";
+import useAdmin from "../hooks/useAdmin";
 
 const Dashboard = () => {
     // Optional: Toggle this based on your user's role (Admin vs User)
     const [cart, refetch] = useCart();
     
-    const isAdmin = true; 
+    const [isAdmin] = useAdmin(); 
 
     return (
         <div className="flex">
