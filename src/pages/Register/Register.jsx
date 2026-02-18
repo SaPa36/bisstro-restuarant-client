@@ -8,11 +8,12 @@ import { useForm } from 'react-hook-form';
 import { Helmet } from 'react-helmet';
 import Swal from 'sweetalert2';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
+import Social from '../../components/Social/Social';
 
 
 
 const Register = () => {
-    const { createUser, updateUserProfile } = useContext(AuthContext);
+    const { createUser, updateUserProfile, logOut } = useContext(AuthContext);
     const navigate = useNavigate();
     const axiosPublic = useAxiosPublic();
 
@@ -41,6 +42,7 @@ const Register = () => {
                             .then(res => {
                                 if (res.data.insertedId) {
                                     console.log("User addeded to database");
+                                    
                                     reset();
                                     Swal.fire({
                                         title: "User Registered Successfully!",
@@ -48,6 +50,7 @@ const Register = () => {
                                         draggable: true
                                     });
                                     navigate("/login");
+                                    logOut();
                                 }
                                 })
                             .catch(err => {
@@ -176,12 +179,7 @@ const Register = () => {
                                 <small>Already have an account? <Link className="font-bold" to="/login">Log In</Link></small>
                             </p>
                             <p className="mt-2">Or sign in with</p>
-                            <div className="flex justify-center gap-4 mt-4 text-2xl">
-                                {/* You can replace these with React Icons like FaGoogle, FaFacebook */}
-                                <button className="btn btn-circle btn-outline btn-sm">f</button>
-                                <button className="btn btn-circle btn-outline btn-sm">G</button>
-                                <button className="btn btn-circle btn-outline btn-sm">in</button>
-                            </div>
+                            <Social></Social>
                         </div>
                     </div>
                 </div>

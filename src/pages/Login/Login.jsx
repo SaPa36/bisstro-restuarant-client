@@ -6,6 +6,7 @@ import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, val
 import { Helmet } from 'react-helmet';
 import { AuthContext } from '../../providers/AuthProvider';
 import Swal from 'sweetalert2';
+import Social from '../../components/Social/Social';
 
 const Login = () => {
     
@@ -142,12 +143,7 @@ const Login = () => {
                                 <small>New here? <Link className="font-bold" to="/register">Create a New Account</Link></small>
                             </p>
                             <p className="mt-2">Or sign in with</p>
-                            <div className="flex justify-center gap-4 mt-4 text-2xl">
-                                {/* You can replace these with React Icons like FaGoogle, FaFacebook */}
-                                <button className="btn btn-circle btn-outline btn-sm">f</button>
-                                <button className="btn btn-circle btn-outline btn-sm">G</button>
-                                <button className="btn btn-circle btn-outline btn-sm">in</button>
-                            </div>
+                            <Social></Social>
                         </div>
                     </div>
                 </div>
