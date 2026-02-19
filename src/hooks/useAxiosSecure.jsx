@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 
 export const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://bisstro-restuarant-server.vercel.app',
     // You can add any default headers or configurations here
 });
 
 const useAxiosSecure = () => {
-    const {logOut} = useContext(AuthContext);
+    const { logOut } = useContext(AuthContext);
     const navigate = useNavigate();
 
     // Add a request interceptor to include the token in headers for every request made using this instance

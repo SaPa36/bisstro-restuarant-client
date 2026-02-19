@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosPublic = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://bisstro-restuarant-server.vercel.app',
     // You can add any default headers or configurations here
 });
 
