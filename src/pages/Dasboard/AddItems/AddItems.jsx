@@ -1,13 +1,16 @@
 import React, { use } from 'react';
 import { useForm } from 'react-hook-form';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const AddItems = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
   const onSubmit = async (data) => {
     console.log("Form Data Submitted:", data);
@@ -17,7 +20,31 @@ const AddItems = () => {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+
     });
+
+    if(res.data.success){
+        // If the image upload is successful, we can proceed to send the item data to our server
+        const menuItem = {
+          name: data.name,
+          category: data.category,
+          price: parseFloat(data.price),
+          recipe: data.recipe,
+          image: res.data.data.display_url, // Use the URL from the image hosting response
+        };
+        const menuRes = await axiosSecure.post('/menu', menuItem);
+        console.log("Menu Item Added Response:", menuRes.data);
+        if(menuRes.data.insertedId){
+          reset(); // Reset the form after successful submission
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Your item has been added',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+    }
     console.log("Image Upload Response:", res.data);
   };
 
@@ -56,7 +83,7 @@ const AddItems = () => {
                 {...register("category", { required: "Category is required" })}
                 className="w-full p-4 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B8860B] text-gray-500"
               >
-                <option disabled value="default">Category</option>
+                <option disabled value="default">Select Category</option>
                 <option value="salad">Salad</option>
                 <option value="pizza">Pizza</option>
                 <option value="soup">Soups</option>
