@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { use } from 'react';
 import { useForm } from 'react-hook-form';
+import useAxiosPublic from '../../../hooks/useAxiosPublic';
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const AddItems = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const axiosPublic = useAxiosPublic();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("Form Data Submitted:", data);
+    // imag upload to imgbb and then get an url and then send to the server with other data
+    const imageFile = {image: data.image[0]};
+    const res = await axiosPublic.post(image_hosting_api, imageFile, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log("Image Upload Response:", res.data);
   };
 
   return (
@@ -13,7 +26,7 @@ const AddItems = () => {
       {/* Header Section */}
       <div className="text-center mb-10">
         <p className="text-[#D4A017] text-sm tracking-[0.3em] font-medium italic">--- What's new? ---</p>
-        <h1 className="text-4xl font-normal text-gray-800 px-20 py-4 border-y border-gray-200 uppercase mt-4">
+        <h1 className="text-4xl font-normal text-gray-800 px-20 py-4 border-y-4 border-gray-200 uppercase mt-4">
           Add An Item
         </h1>
       </div>
@@ -26,11 +39,12 @@ const AddItems = () => {
           <div className="flex flex-col">
             <label className="text-gray-700 font-semibold mb-2">Recipe name*</label>
             <input
-              {...register("recipeName", { required: "Recipe name is required" })}
+              {...register("name", { required: "Recipe name is required" })}
               placeholder="Recipe name"
-              className="w-full p-4 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B8860B] transition-all"
+              className="w-full p-4 bg-white border border-gray-300 rounded-lg 
+              focus:outline-none focus:ring-2 focus:ring-[#B8860B] transition-all"
             />
-            {errors.recipeName && <span className="text-red-500 text-xs mt-1">{errors.recipeName.message}</span>}
+            {errors.name && <span className="text-red-500 text-xs mt-1">{errors.name.message}</span>}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -38,10 +52,11 @@ const AddItems = () => {
             <div className="flex flex-col">
               <label className="text-gray-700 font-semibold mb-2">Category*</label>
               <select
+               defaultValue="default                                                ````````````"
                 {...register("category", { required: "Category is required" })}
                 className="w-full p-4 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B8860B] text-gray-500"
               >
-                <option value="">Category</option>
+                <option disabled value="default">Category</option>
                 <option value="salad">Salad</option>
                 <option value="pizza">Pizza</option>
                 <option value="soup">Soups</option>
@@ -66,7 +81,7 @@ const AddItems = () => {
           <div className="flex flex-col">
             <label className="text-gray-700 font-semibold mb-2">Recipe Details*</label>
             <textarea
-              {...register("details", { required: "Details are required" })}
+              {...register("recipe", { required: "Details are required" })}
               placeholder="Recipe Details"
               rows="6"
               className="w-full p-4 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B8860B] resize-none"
