@@ -35,6 +35,8 @@ const CheckoutForm = () => {
         }
     };
 
+    //add a new commit to test the commit functionality of git
+
     return (
         <div className="w-full max-w-md mt-25 mx-auto">
             <form onSubmit={handleSubmit} className="bg-white shadow-xl rounded-2xl p-8 border border-gray-100">
