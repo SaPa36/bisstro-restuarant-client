@@ -1,12 +1,33 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { set } from "react-hook-form";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useCart from "../../../hooks/useCart";
+
 
 
 const CheckoutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
     const [error, setError] = useState('');
-    const [processing, setProcessing] = useState(false);
+    //const [processing, setProcessing] = useState(false);
+    const [clientSecret, setClientSecret] = useState('');
+    const [cardComplete, setCardComplete] = useState(false);
+    const axiosSecure = useAxiosSecure();
+    const [cart] = useCart();
+    const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+
+    useEffect(() => {
+        axiosSecure.post('/create-payment-intent', { price: totalPrice })
+            .then(res => {
+                console.log(res.data.clientSecret);
+                setClientSecret(res.data.clientSecret);
+            })
+            .catch(err => {
+                console.error('Error creating payment intent:', err);
+            });
+    }, [totalPrice, axiosSecure]);
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -16,7 +37,7 @@ const CheckoutForm = () => {
         const card = elements.getElement(CardElement);
         if (card == null) return;
 
-        setProcessing(true);
+        //setProcessing(true);
         setError('');
 
         const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -27,11 +48,12 @@ const CheckoutForm = () => {
         if (error) {
             console.log('[error]', error);
             setError(error.message);
-            setProcessing(false);
+            //setProcessing(false);
         } else {
             console.log('[PaymentMethod]', paymentMethod);
             // Process the payment intent here
-            setProcessing(false);
+            setError('');
+            //setProcessing(false);
         }
     };
 
@@ -53,6 +75,14 @@ const CheckoutForm = () => {
                     </label>
                     <div className="p-4 border-2 border-gray-100 rounded-xl focus-within:border-indigo-500 transition-all bg-gray-50">
                         <CardElement
+                            onChange={(event) => {
+                                setCardComplete(event.complete);
+                                if (event.error) {
+                                    setError(event.error.message);
+                                } else {
+                                    setError('');
+                                }
+                            }}
                             options={{
                                 style: {
                                     base: {
@@ -70,24 +100,11 @@ const CheckoutForm = () => {
 
                 {error && <p className="text-red-500 text-sm mb-4 bg-red-50 p-3 rounded-lg border border-red-100 italic">{error}</p>}
 
-                <button
-                    type="submit"
-                    disabled={!stripe || processing}
-                    className={`w-full py-4 px-6 rounded-xl text-white font-bold uppercase tracking-widest transition-all transform active:scale-95 shadow-lg
-                        ${processing 
-                            ? 'bg-gray-400 cursor-not-allowed' 
-                            : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 hover:shadow-indigo-200'
-                        }`}
-                >
-                    {processing ? (
-                        <span className="flex items-center justify-center gap-2">
-                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                            Processing...
-                        </span>
-                    ) : (
-                        "Pay Now"
-                    )}
+                <button className="btn btn-sm btn-primary my-4 w-full p-2
+                border-0 bg-gradient-to-r from-indigo-500 to-purple-500 text-white" type="submit" disabled={!stripe || !clientSecret || !cardComplete}>
+                    Pay
                 </button>
+
 
                 <p className="mt-6 text-center text-xs text-gray-400 flex items-center justify-center gap-1">
                     🔒 SSL Encrypted & Secure Payments
