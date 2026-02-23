@@ -1,8 +1,9 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { set } from "react-hook-form";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useCart from "../../../hooks/useCart";
+import { AuthContext } from "../../../providers/AuthProvider";
 
 
 
@@ -14,6 +15,7 @@ const CheckoutForm = () => {
     const [clientSecret, setClientSecret] = useState('');
     const [cardComplete, setCardComplete] = useState(false);
     const axiosSecure = useAxiosSecure();
+    const {user} = useContext(AuthContext);
     const [cart] = useCart();
     const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
 
@@ -55,9 +57,29 @@ const CheckoutForm = () => {
             setError('');
             //setProcessing(false);
         }
+
+        // Confirm the payment intent
+        const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: card,
+                billing_details: {
+                    name: user?.displayName || 'Guest',
+                    email: user?.email || 'guest@example.com',
+                },
+
+            },
+        });
+
+        if (confirmError) {
+            console.log('[confirmError]', confirmError);
+            setError(confirmError.message);
+            //setProcessing(false);
+        } else {
+            console.log('[PaymentIntent]', paymentIntent);
+        }
     };
 
-    //add a new commit to test the commit functionality of git
+    
 
     return (
         <div className="w-full max-w-md mt-25 mx-auto">
