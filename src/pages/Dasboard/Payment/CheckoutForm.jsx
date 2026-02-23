@@ -14,6 +14,7 @@ const CheckoutForm = () => {
     //const [processing, setProcessing] = useState(false);
     const [clientSecret, setClientSecret] = useState('');
     const [cardComplete, setCardComplete] = useState(false);
+    const [transactionId, setTransactionId] = useState('');
     const axiosSecure = useAxiosSecure();
     const {user} = useContext(AuthContext);
     const [cart] = useCart();
@@ -76,6 +77,21 @@ const CheckoutForm = () => {
             //setProcessing(false);
         } else {
             console.log('[PaymentIntent]', paymentIntent);
+            if (paymentIntent.status === 'succeeded') {
+                setTransactionId(paymentIntent.id);
+
+                const paymentInfo = {
+                    email: user?.email || 'guest@example.com',
+                    price: totalPrice,
+                    transactionId: paymentIntent.id,
+                    date: new Date(),
+                    cartIds: cart.map(item => item._id),
+                    menuItemIds: cart.map(item => item.menuItemId),
+                    status: 'pending',
+                };
+                const res = await axiosSecure.post('/payments', paymentInfo);
+                console.log('Payment info saved:', res.data);
+            }
         }
     };
 
@@ -126,6 +142,14 @@ const CheckoutForm = () => {
                 border-0 bg-gradient-to-r from-indigo-500 to-purple-500 text-white" type="submit" disabled={!stripe || !clientSecret || !cardComplete}>
                     Pay
                 </button>
+
+                {
+                    transactionId && (
+                        <p className="text-green-500 text-sm mb-4 bg-green-50 p-3 rounded-lg border border-green-100 italic">
+                            Payment successful! Transaction ID: <span className="font-mono">{transactionId}</span>
+                        </p>
+                    )
+                }
 
 
                 <p className="mt-6 text-center text-xs text-gray-400 flex items-center justify-center gap-1">
