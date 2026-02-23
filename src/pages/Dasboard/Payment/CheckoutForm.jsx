@@ -4,6 +4,7 @@ import { set } from "react-hook-form";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useCart from "../../../hooks/useCart";
 import { AuthContext } from "../../../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 
 
@@ -16,19 +17,21 @@ const CheckoutForm = () => {
     const [cardComplete, setCardComplete] = useState(false);
     const [transactionId, setTransactionId] = useState('');
     const axiosSecure = useAxiosSecure();
-    const {user} = useContext(AuthContext);
-    const [cart] = useCart();
+    const { user } = useContext(AuthContext);
+    const [cart, refetch] = useCart();
     const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
 
     useEffect(() => {
-        axiosSecure.post('/create-payment-intent', { price: totalPrice })
-            .then(res => {
-                console.log(res.data.clientSecret);
-                setClientSecret(res.data.clientSecret);
-            })
-            .catch(err => {
-                console.error('Error creating payment intent:', err);
-            });
+        if (totalPrice > 0) {
+            axiosSecure.post('/create-payment-intent', { price: totalPrice })
+                .then(res => {
+                    console.log(res.data.clientSecret);
+                    setClientSecret(res.data.clientSecret);
+                })
+                .catch(err => {
+                    console.error('Error creating payment intent:', err);
+                });
+        }
     }, [totalPrice, axiosSecure]);
 
 
@@ -91,11 +94,22 @@ const CheckoutForm = () => {
                 };
                 const res = await axiosSecure.post('/payments', paymentInfo);
                 console.log('Payment info saved:', res.data);
+                refetch(); // Refetch cart data after successful payment
+
+                if (res.data?.paymentResult?.insertedId) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Thank you for your payment!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             }
         }
     };
 
-    
+
 
     return (
         <div className="w-full max-w-md mt-25 mx-auto">
