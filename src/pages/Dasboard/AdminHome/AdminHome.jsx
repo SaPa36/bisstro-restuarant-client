@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure"; // Don't forget this import
 import { FaWallet, FaUsers, FaUtensils, FaTruck, FaArrowUp, FaMinus, FaCheck } from "react-icons/fa";
 
+
 const AdminHome = () => {
     const { user } = useContext(AuthContext);
     const axiosSecure = useAxiosSecure();
@@ -12,6 +13,14 @@ const AdminHome = () => {
         queryKey: ['admin-stats'],
         queryFn: async () => {
             const res = await axiosSecure.get('/admin-stats');
+            return res.data;
+        }
+    });
+
+    const { data: chartData = [] } = useQuery({
+        queryKey: ['order-stats'],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/order-stats');
             return res.data;
         }
     });
@@ -25,6 +34,8 @@ const AdminHome = () => {
     const today = new Date().toLocaleDateString('en-US', {
         weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     });
+
+    
 
     return (
         <div className="p-4 bg-slate-50 min-h-screen">
@@ -133,6 +144,15 @@ const AdminHome = () => {
                     </div>
                 </div>
             </div>
+
+            <div className="flex">
+                <div>
+                    <p>ChartData {chartData?.category || 0}</p>
+                    <p>ChartData {chartData?.quantity || 0}</p>
+                    <p>ChartData {chartData?.price || 0}</p>
+                </div>
+            </div>
+
         </div>
     );
 };
