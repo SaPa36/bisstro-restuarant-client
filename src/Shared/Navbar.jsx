@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../providers/AuthProvider';
 import { TiShoppingCart } from "react-icons/ti";
 import useCart from '../hooks/useCart';
+import useAdmin from '../hooks/useAdmin';
 
 const Navbar = () => {
 
     const { user, logOut } = useContext(AuthContext);
     const [cart] = useCart();
+    const [isAdmin] = useAdmin();
 
     const handleLogOut = () => {
         logOut()
@@ -20,6 +22,12 @@ const Navbar = () => {
         <li><Link to="/menu">Menu</Link></li>
         <li><Link to="/order/salad">Order Food</Link></li>
         <li><Link to="/secret">Secret</Link></li>
+        {
+            user && !isAdmin && <li><Link to="/dashboard/userHome">Dashboard</Link></li>
+        }
+        {
+            user && isAdmin && <li><Link to="/dashboard/adminHome">Admin Dashboard</Link></li>
+        }
         
         <li>
             <Link to="/dashboard/cart">
