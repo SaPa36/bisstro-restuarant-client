@@ -4,6 +4,23 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure"; // Don't forget this import
 import { FaWallet, FaUsers, FaUtensils, FaTruck, FaArrowUp, FaMinus, FaCheck } from "react-icons/fa";
 
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, LabelList, Tooltip, ResponsiveContainer } from 'recharts';
+
+const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink', 'black'];
+
+// Custom Shape Function for the Triangles
+const getPath = (x, y, width, height) => {
+    return `M${x},${y + height}C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3}
+    ${x + width / 2}, ${y}
+    C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${y + height} ${x + width}, ${y + height}
+    Z`;
+};
+
+const TriangleBar = (props) => {
+    const { fill, x, y, width, height } = props;
+    return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
+};
+
 
 const AdminHome = () => {
     const { user } = useContext(AuthContext);
@@ -35,7 +52,7 @@ const AdminHome = () => {
         weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     });
 
-    
+
 
     return (
         <div className="p-4 bg-slate-50 min-h-screen">
@@ -145,11 +162,57 @@ const AdminHome = () => {
                 </div>
             </div>
 
-            <div className="flex">
-                <div>
-                    <p>ChartData {chartData?.category || 0}</p>
-                    <p>ChartData {chartData?.quantity || 0}</p>
-                    <p>ChartData {chartData?.price || 0}</p>
+            <div className="flex flex-wrap gap-4 mt-8">
+                {chartData.map((data, index) => (
+                    <div key={index} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <h4 className="font-bold text-orange-600 uppercase text-sm">{data.category}</h4>
+                        <p className="text-slate-600">Quantity: <span className="font-semibold">{data.quantity}</span></p>
+                        <p className="text-slate-600">Revenue: <span className="font-semibold">${data.revenue.toFixed(2)}</span></p>
+                    </div>
+                ))}
+            </div>
+
+            <div className="flex flex-col md:flex-row mt-12 gap-8 bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                {/* Bar Chart Section */}
+                <div className="w-full md:w-1/2" style={{ height: 400 }}>
+                    <h2 className="text-xl font-bold mb-6 text-gray-700">Orders by Category</h2>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            data={chartData}
+                            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="category" />
+                            <YAxis />
+                            <Tooltip />
+                            <Bar
+                                dataKey="quantity"
+                                fill="#8884d8"
+                                shape={<TriangleBar />}
+                                label={{ position: 'top' }}
+                            >
+                                {chartData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={colors[index % 7]} />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+
+                {/* Legend or Stats Section */}
+                <div className="w-full md:w-1/2">
+                    <h2 className="text-xl font-bold mb-6 text-gray-700">Category Details</h2>
+                    <div className="space-y-4">
+                        {chartData.map((item, idx) => (
+                            <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: colors[idx % 7] }}></div>
+                                    <span className="font-semibold text-gray-600 capitalize">{item.category}</span>
+                                </div>
+                                <span className="text-gray-500">{item.quantity} orders</span>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
 
