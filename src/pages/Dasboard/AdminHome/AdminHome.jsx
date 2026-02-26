@@ -71,7 +71,7 @@ const AdminHome = () => {
 
     // Transform chartData for Pie Chart: mapping 'category' to 'name' and 'quantity' to 'value'
     const pieChartData = chartData.map(data => {
-        return { name: data.category, value: data.quantity };
+        return { name: data.category, value: data.revenue };
     });
 
     return (
@@ -187,7 +187,7 @@ const AdminHome = () => {
             <div className="flex flex-col lg:flex-row mt-12 gap-8">
                 
                 {/* 1. Bar Chart */}
-                <div className="w-full lg:w-1/2 bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                <div className="w-full lg:w-1/2 bg-white md:p-8 rounded-3xl shadow-sm border border-gray-100">
                     <h2 className="text-xl font-bold mb-6 text-gray-700">Orders by Category</h2>
                     <div style={{ width: '100%', height: 350 }}>
                         <ResponsiveContainer width="100%" height="100%">
@@ -212,7 +212,7 @@ const AdminHome = () => {
                 </div>
 
                 {/* 2. Pie Chart */}
-                <div className="w-full lg:w-1/2 bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                <div className="w-full lg:w-1/2 bg-white md:p-8 rounded-3xl shadow-sm border border-gray-100">
                     <h2 className="text-xl font-bold mb-6 text-gray-700">Category Percentage</h2>
                     <div style={{ width: '100%', height: 350 }}>
                         <ResponsiveContainer width="100%" height="100%">

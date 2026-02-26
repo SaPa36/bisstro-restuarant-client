@@ -18,13 +18,13 @@ const PaymentHistory = () => {
     if (isLoading) return <span className="loading loading-spinner loading-lg"></span>;
 
     return (
-        <div className="p-10">
+        <div className="md:p-10">
             <div className="text-center ">
                 <p className="text-yellow-600 italic">---At a Glance!---</p>
                 <h2 className="text-3xl font-semibold border-y-4 py-4 border-gray-600 uppercase w-fit mx-auto px-10">Payment History</h2>
             </div>
 
-            <div className="bg-gray-50 p-8 rounded-xl">
+            <div className="bg-gray-50 md:mx-10 mt-5  rounded-xl">
                 <h3 className="text-2xl font-bold mb-6 font-serif">Total Payments: {payments.length}</h3>
                 
                 <div className="overflow-x-auto rounded-t-2xl shadow-sm">

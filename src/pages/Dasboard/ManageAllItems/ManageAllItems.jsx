@@ -39,7 +39,7 @@ const ManageAllItems = () => {
     };
 
     return (
-        <div className="w-full bg-white min-h-screen p-10">
+        <div className="w-full bg-white min-h-screen md:p-10">
             {/* Section Header */}
             <div className="text-center mb-10">
                 <p className="text-[#D4A017] text-sm tracking-[0.3em] font-medium italic">---Hurry Up!---</p>
@@ -49,7 +49,7 @@ const ManageAllItems = () => {
             </div>
 
             {/* Table Container */}
-            <div className="max-w-6xl mx-auto bg-white px-8 py-4 shadow-sm border border-gray-100">
+            <div className="max-w-6xl mx-auto bg-white md:px-8 py-4 shadow-sm border border-gray-100">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-2xl font-serif font-bold uppercase">Total Items: {menu.length}</h2>
                 </div>

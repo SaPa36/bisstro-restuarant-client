@@ -49,7 +49,7 @@ const AddItems = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center py-4 px-4 font-sans">
+    <div className="min-h-screen bg-white flex flex-col items-center py-4 md:px-4 font-sans">
       {/* Header Section */}
       <div className="text-center mb-10">
         <p className="text-[#D4A017] text-sm tracking-[0.3em] font-medium italic">--- What's new? ---</p>

@@ -47,7 +47,7 @@ const Cart = () => {
             </div>
 
             {/* Table Container */}
-            <div className="bg-white p-10 shadow-lg">
+            <div className="bg-white md:mx-10 shadow-lg">
                 <div className="flex justify-between items-center mb-6 font-cinzel">
                     <h2 className="text-xl font-bold">Total Items: {cart.length}</h2>
                     <h2 className="text-xl font-bold">Total Price: ${totalPrice.toFixed(2)}</h2>

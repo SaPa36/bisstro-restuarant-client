@@ -61,13 +61,13 @@ const AllUsers = () => {
 
     // 3. One single return for the JSX
     return (
-        <div className="w-full bg-[#F6F6F6] min-h-screen p-10">
+        <div className="w-full bg-[#F6F6F6] min-h-screen md:p-10">
             <div className="text-center mb-8">
                 <p className="text-[#D1A054] italic mb-2">---How Many?---</p>
                 <h2 className="text-3xl font-bold uppercase border-y-4 border-gray-400 py-4 inline-block px-10">Manage All Users</h2>
             </div>
 
-            <div className="bg-white p-10 shadow-lg">
+            <div className="bg-white md:mx-10 shadow-lg">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-bold font-cinzel">Total Users: {users.length}</h2>
                 </div>
