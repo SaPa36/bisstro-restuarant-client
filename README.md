@@ -3,7 +3,7 @@
 Bistro Boss is a premium MERN-stack application designed to bridge the gap between fine dining and digital convenience. It features a sleek, responsive user interface for customers and a powerful, data-driven dashboard for administrators to manage restaurant operations and sales analytics.
 
 ### 🔗 Deployment Links
-* **Live Client:** https://bisstro-restuarant.web.app/dashboard/adminHome
+* **Live Client:** https://bisstro-restuarant.web.app/
 * **Server API:** https://bisstro-restuarant-server.vercel.app
 
 ---
